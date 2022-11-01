@@ -1,15 +1,8 @@
 export type SignUpRequest = {
-    areaCode: string;
-    phoneNumber: string;
-}
-
-export type VerifyRequest = {
-    phoneNumber: string;
+    email: string;
     password: string;
 }
 
-export type SignUpResponse = void
-
-export type VerifyResponse = {
+export type SignUpResponse  = {
     accessToken: string;
 }

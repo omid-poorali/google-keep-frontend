@@ -1,12 +1,22 @@
-import { RequestResult } from "apis/request";
-import { CreateNoteRequest, CreateNoteResponse } from "./contract";
+import { CreateNoteRequest, CreateNoteResponse, getMyNotesRequest, getMyNotesResponse } from "./contract";
 
-
-export const createNote = async (payload: CreateNoteRequest) => {
-  return new Promise<RequestResult<CreateNoteResponse>>((resolve) => {
+export const createNote = async (_payload: CreateNoteRequest) => {
+  return new Promise<CreateNoteResponse>((resolve) => {
     resolve({
-      message: "success",
-      data: {}
-    } as RequestResult<CreateNoteResponse>);
+      id: 'id',
+      title: 'title',
+      body: 'body'
+    });
+  });
+}
+
+
+export const getMyNotes = async (_payload: getMyNotesRequest) => {
+  return new Promise<getMyNotesResponse>((resolve) => {
+    resolve([{
+      id: 'id',
+      title: 'title',
+      body: 'body'
+    }]);
   });
 }

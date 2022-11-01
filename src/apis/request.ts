@@ -7,26 +7,23 @@ declare module "axios" {
     }
 }
 
-export type RequestResult<T> = {
-    message: string;
-    data?: T;
-}
-
 export type APIRequest = {
-    get: <A, B>(url: string, payload?: A) => Promise<RequestResult<B>>;
-    post: <A, B>(url: string, payload: A) => Promise<RequestResult<B>>;
+    get: <A, B>(url: string, payload?: A) => Promise<B>;
+    post: <A, B>(url: string, payload: A) => Promise<B>;
 }
 
 function request(): APIRequest {
+
+    // cached accessToken
+    let accessToken: string | undefined;
 
     const service = axios.create({});
     service.defaults.baseURL = "http://localhost:8080/api";
     service.defaults.headers.common["Content-Type"] = "application/json";
     service.defaults.withCredentials = true;
 
-
     const handleSuccessResponse = (response: AxiosResponse) => {
-        return response;
+        return response.data;
     }
 
     const handleErrorResponse = async (error: AxiosError) => {
@@ -50,21 +47,28 @@ function request(): APIRequest {
     }
 
     service.interceptors.response.use(handleSuccessResponse, handleErrorResponse);
+    service.interceptors.request.use((request: AxiosRequestConfig<any>) => {
+        if (!accessToken) {
+            accessToken = Utils.getCookie("accessToken");
+        }
+        if (request.headers) request.headers["Authorization"] = accessToken;
+        return request;
+    });
 
     return {
-        get: <A, B>(path: string, payload?: A) => {
-            return new Promise<RequestResult<B>>((resolve, reject) => {
+        get: <A>(path: string) => {
+            return new Promise<A>((resolve, reject) => {
                 service.get(path).then(response => {
-                    resolve(response.data as RequestResult<B>);
+                    resolve(response.data as A);
                 }).catch(error => {
                     reject(error);
                 });
             });
         },
         post: <A, B>(path: string, payload: A) => {
-            return new Promise<RequestResult<B>>((resolve, reject) => {
+            return new Promise<B>((resolve, reject) => {
                 service.post(path, payload).then(response => {
-                    resolve(response.data as RequestResult<B>);
+                    resolve(response.data as B);
                 }).catch(error => {
                     reject(error);
                 });

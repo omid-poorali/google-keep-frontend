@@ -1,18 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import classNames from "classnames";
+import { useOutsideRefClick } from "hooks";
 import { Textarea, Button } from "components";
-// import { useNotes } from "contexts";
+import { useNotes } from "contexts";
 import * as Models from "models";
-// import * as Apis from "apis";
+import * as Apis from "apis";
 
 type NewNote = Omit<Models.Note, "id">;
 
-
 export const CreateNoteBar = () => {
 
-  const bodyRef = useRef<HTMLTextAreaElement>(null);
+  const { addNote } = useNotes();
+
   const [expand, setExpand] = useState<boolean>(false);
+
+  const formRef = useRef<HTMLFormElement>(null);
+  const bodyRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (expand) {
@@ -20,47 +24,45 @@ export const CreateNoteBar = () => {
     }
   }, [expand]);
 
+  const defaultValues = {
+    title: "",
+    body: ""
+  };
+
   const {
+    reset,
     control,
     handleSubmit
   } = useForm<NewNote>({
-    defaultValues: {
-      title: "",
-      body: ""
+    defaultValues
+  });
+
+  const resetForm = () => {
+    setExpand(() => false);
+    reset(defaultValues);
+  }
+
+  useOutsideRefClick(() => {
+    handleSubmit(onSubmit)();
+  }, formRef)
+
+
+  const onSubmit = async (values: NewNote) => {
+    if (values.title || values.body) {
+      const newNote = await Apis.note.createNote(values);
+      if (newNote) {
+        addNote(newNote);
+        resetForm();
+      }
     }
-  })
-
-  // const { addNote } = useNotes();
-
-  // const handleAddNote = async (noteToAdd: NewNote) => {
-  //   try {
-  //     const response = await Apis.note.createNote({
-  //       title: noteToAdd.title,
-  //       body: noteToAdd.body,
-  //     });
-
-  //     const addedNote = {
-  //       ...response.data,
-  //     };
-
-  //     addNote(addedNote);
-  //   } catch (err) {
-  //     addToast({
-  //       type: "error",
-  //       title: "Erro ao adicionar nota",
-  //     });
-  //   } finally {
-  //     setColor(0);
-  //   }
-  // };
+    else {
+      resetForm();
+    }
+  }
 
   const handleTitleFocus = () => {
     setExpand(() => true);
   };
-
-  const onSubmit = (values: NewNote) => {
-    console.log(values)
-  }
 
   const wrapperClassName = classNames({
     "hidden": !expand
@@ -68,6 +70,7 @@ export const CreateNoteBar = () => {
 
   return (
     <form
+      ref={formRef}
       className="w-full max-w-md flex flex-col shadow-[0px_1px_2px_0_rgba(60,64,67,0.302),0px_2px_6px_2px_rgba(60,64,67,0.149)]"
       onSubmit={handleSubmit(onSubmit)}>
       <Controller
