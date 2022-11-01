@@ -1,0 +1,1 @@
+export { AddNote as default } from './main';

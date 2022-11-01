@@ -1,0 +1,43 @@
+.puiButton {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  outline-style: solid;
+  border: none;
+
+  &--primary-filled {
+    color: var(--neutral-50);
+    background-color: var(--primary-700);
+    outline-color: var(--primary-700);
+
+    &:hover {
+      outline-color: var(--primary-900);
+      background-color: var(--primary-900);
+    }
+
+    &:focus {
+      outline-color: var(--primary-600);
+      background-color: var(--primary-900);
+    }
+
+
+    &:disabled,
+    &:disabled:hover,
+    &:disabled:focus {
+      cursor: not-allowed;
+      color: var(--primary-50);
+      background-color: var(--primary-200);
+      outline-color: var(--primary-200);
+    }
+  }
+
+  &--medium {
+    padding: .75rem 1rem;
+    font-weight: var(--font-normal);
+    font-size: var(--text-base);
+    border-radius: .25rem;
+    outline-width: 2px;
+  }
+
+}

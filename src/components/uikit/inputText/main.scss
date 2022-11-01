@@ -1,0 +1,87 @@
+.puiInputText {
+  display: inline-flex;
+  flex-direction: column;
+
+  &--medium {
+    width: 30ch;
+  }
+
+  &--fullWidth {
+    width: 100%;
+  }
+
+  &-inputWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    &--startAdornment {
+      .puiInputBase {
+        padding-right: 1rem;
+      }
+    }
+
+    &--endAdornment {
+      .puiInputBase {
+        padding-left: 1rem;
+      }
+    }
+  }
+
+  &-startAdornment {
+    position: absolute;
+    right: .5rem;
+
+    &--disabled {
+      opacity: 0.6;
+    }
+  }
+
+  &-endAdornment {
+    position: absolute;
+    left: .5rem;
+
+    &--disabled {
+      opacity: 0.6;
+    }
+  }
+
+
+  &-label {
+    display: block;
+    width: 100%;
+    margin: 0;
+
+    &--primary-outlined {
+      color: var(--neutral-500);
+    }
+
+    &--medium {
+      padding-bottom: .5rem;
+      font-size: var(--text-sm);
+    }
+  }
+
+  &-helperText {
+    width: 100%;
+    margin: 0;
+
+    &--invisible {
+      visibility: hidden;
+    }
+
+    &--primary-outlined {
+      color: var(--primary-500);
+    }
+
+    &--error {
+      color: var(--danger-900);
+    }
+
+    &--medium {
+      padding-top: .5rem;
+      font-size: var(--text-2xs);
+    }
+  }
+}
