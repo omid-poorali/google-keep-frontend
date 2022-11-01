@@ -8,14 +8,14 @@ export type SystemRoute = {
     access: Enums.RouteAccess;
 }
 
-export const addNote: SystemRoute = {
-    path: "/add-note",
-    element: lazy(() => import("../pages/add-note")),
+export const home: SystemRoute = {
+    path: "/home",
+    element: lazy(() => import("../pages/home")),
     layout: Enums.Layout.Dashboard,
     access: Enums.RouteAccess.Private
 }
 
 
 export const all = [
-    addNote
+    home
 ]

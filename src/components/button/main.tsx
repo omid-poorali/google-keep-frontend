@@ -1,13 +1,12 @@
 import React from 'react';
 import classnames from 'classnames';
-import './main.scss';
 
 type CustomProps = {
 	children?: React.ReactNode;
 	className?: string;
-	color?: 'primary' | 'neutral';
+	color?: 'primary';
 	size?: 'medium';
-	variant?: 'filled';
+	variant?: 'text';
 	disabled?: boolean;
 } & React.ComponentPropsWithoutRef<'button'>;
 
@@ -17,18 +16,19 @@ const ButtonComponent = React.forwardRef((props: PropsType, forwardedRef: React.
 	const {
 		children,
 		className,
-		color = 'primary',
+		color = 'neutral',
 		disabled = false,
 		size = 'medium',
-		variant = 'filled',
+		variant = 'text',
 		...rest
 	} = props;
 
-	const rootClassName = classnames('puiButton',
-		`puiButton--${color}-${variant}`,
-		`puiButton--${size}`,
-		{ 'puiButton--disabled': disabled },
-		className);
+
+	const rootClassName = classnames({
+		"text-neutral-600": color === "neutral",
+		"rounded-md py-1 px-3": size === "medium",
+		"bg-transparent hover:bg-gray-100": variant === "text"
+	}, className);
 
 	return (
 		<button

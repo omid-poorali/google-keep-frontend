@@ -1,7 +1,6 @@
 // import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { UIKIT } from "components";
 // import * as Routes from "routes";
 
 const SignUp = () => {
@@ -50,8 +49,8 @@ const SignUp = () => {
           name="phoneNumber"
           control={control}
           render={({ field, fieldState }) => (
-            <UIKIT.InputText
-              error
+            <input
+              // error
               placeholder="شماره موبایل"
               onBlur={field.onBlur}
               onChange={(event) => {
@@ -68,15 +67,15 @@ const SignUp = () => {
                 trigger("phoneNumber");
               }}
               value={field.value}
-              helperText={fieldState.error && "لطفا شماره موبایل خود را وارد نمایید"}
+              // helperText={fieldState.error && "لطفا شماره موبایل خود را وارد نمایید"}
             />
           )}
         />
-        <UIKIT.Button
+        <button
           className="my-4"
           type="submit">
           ارسال
-        </UIKIT.Button>
+        </button>
       </form>
     </div>
   );

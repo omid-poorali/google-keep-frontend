@@ -44,7 +44,7 @@ export const AppRoutes = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Navigate to={AllRoutes.Main.addNote.path} replace />} />
+                <Route path="/" element={<Navigate to={AllRoutes.Main.home.path} replace />} />
                 {React.Children.toArray(
                     AllRoutes.all.map((route) => (
                         <Route

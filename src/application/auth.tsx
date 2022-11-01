@@ -38,18 +38,22 @@ export const AuthProvider = ({ children }: PropsType) => {
 
     useEffect(() => {
 
-        const accessToken = Utils.getCookie("accessToken");
-        if (accessToken) {
-            updateState({
-                isAuthenticated: true,
-                loading: false
-            });
-        }
-        else {
-            updateState({
-                loading: false
-            });
-        }
+        updateState({
+            isAuthenticated: true,
+            loading: false
+        });
+        // const accessToken = Utils.getCookie("accessToken");
+        // if (accessToken) {
+        //     updateState({
+        //         isAuthenticated: true,
+        //         loading: false
+        //     });
+        // }
+        // else {
+        //     updateState({
+        //         loading: false
+        //     });
+        // }
 
     }, []);
 
