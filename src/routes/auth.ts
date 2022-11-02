@@ -10,8 +10,6 @@ export const signUp: SystemRoute = {
     access: Enums.RouteAccess.Public,
 }
 
-
-
 export const all = [
     signUp
 ]

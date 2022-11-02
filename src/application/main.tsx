@@ -1,5 +1,5 @@
 import { AuthProvider } from "./auth";
-import { NotesProvider } from "contexts";
+import { NotesProvider, TagsProvider } from "contexts";
 import { ErrorBoundary } from "./errorBoundary";
 import { AppRoutes } from "./routes";
 
@@ -7,9 +7,11 @@ export const Application = () => {
     return (
         <ErrorBoundary>
             <AuthProvider>
-                <NotesProvider>
-                    <AppRoutes />
-                </NotesProvider>
+                <TagsProvider>
+                    <NotesProvider>
+                        <AppRoutes />
+                    </NotesProvider>
+                </TagsProvider>
             </AuthProvider>
         </ErrorBoundary>
     );

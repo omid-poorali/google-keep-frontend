@@ -5,7 +5,8 @@ export const createNote = async (_payload: CreateNoteRequest) => {
     resolve({
       id: 'id',
       title: 'title',
-      body: 'body'
+      body: 'body',
+      tags:[]
     });
   });
 }
@@ -15,7 +16,8 @@ export const updateNote = async (_payload: UpdateNoteRequest) => {
     resolve({
       id: 'id',
       title: 'title',
-      body: 'body'
+      body: 'body',
+      tags:[]
     });
   });
 }
@@ -34,7 +36,8 @@ export const getMyNotes = async (_payload: getMyNotesRequest) => {
     resolve([{
       id: 'id',
       title: 'title',
-      body: 'body'
+      body: 'body',
+      tags:[]
     }]);
   });
 }

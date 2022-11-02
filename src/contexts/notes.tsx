@@ -6,7 +6,7 @@ interface NotesContextData {
   notes: Models.Note[];
   addNote: (input: Omit<Models.Note, 'id'>) => Promise<Models.Note>;
   updateNote: (input: Models.Note) => Promise<Models.Note>;
-  deleteNote: (id: string) => Promise<Models.Note>;
+  deleteNote: (id: string) => Promise<void>;
 }
 
 const NotesContext = createContext<NotesContextData>({} as NotesContextData);
@@ -50,9 +50,10 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
 
 
   const deleteNote = (id: string) => {
-    return new Promise<Models.Note>((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       Apis.note.deleteNote({ id }).then(() => {
         setAllNotes(state => state.filter(note => note.id !== id));
+        resolve();
       }).catch(() => {
         reject();
       })
