@@ -5,7 +5,6 @@ import { useOutsideRefClick } from "hooks";
 import { Textarea, Button } from "components";
 import { useNotes } from "contexts";
 import * as Models from "models";
-import * as Apis from "apis";
 
 type NewNote = Omit<Models.Note, "id">;
 
@@ -47,13 +46,11 @@ export const CreateNoteBar = () => {
   }, formRef)
 
 
-  const onSubmit = async (values: NewNote) => {
+  const onSubmit = (values: NewNote) => {
     if (values.title || values.body) {
-      const newNote = await Apis.note.createNote(values);
-      if (newNote) {
-        addNote(newNote);
+      addNote(values).then(() => {
         resetForm();
-      }
+      });
     }
     else {
       resetForm();
@@ -71,7 +68,7 @@ export const CreateNoteBar = () => {
   return (
     <form
       ref={formRef}
-      className="w-full max-w-md flex flex-col shadow-[0px_1px_2px_0_rgba(60,64,67,0.302),0px_2px_6px_2px_rgba(60,64,67,0.149)]"
+      className="w-full max-w-md flex flex-col shadow-[0px_1px_1px_rgba(9,30,66,0.25),0px_0px_1px_1px_rgba(9,30,66,0.13)]"
       onSubmit={handleSubmit(onSubmit)}>
       <Controller
         name="title"
@@ -80,7 +77,7 @@ export const CreateNoteBar = () => {
           <input
             className="p-2 border-none outline-none"
             type="text"
-            placeholder="Title"
+            placeholder={expand ? "Title" : "Take a note..."}
             value={value ?? ""}
             onChange={onChange}
             onBlur={onBlur}

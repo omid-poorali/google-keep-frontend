@@ -4,11 +4,9 @@ import * as Apis from "apis";
 
 interface NotesContextData {
   notes: Models.Note[];
-  setNotes(data: { notes: Models.Note[]; notesCount?: number }): void;
-  addNotes(data: { notes: Models.Note[]; notesCount?: number }): void;
-  addNote(note: Models.Note): void;
-  updateNote(note: Models.Note): void;
-  removeNote(id: string): void;
+  addNote: (input: Omit<Models.Note, 'id'>) => Promise<Models.Note>;
+  updateNote: (input: Models.Note) => Promise<Models.Note>;
+  deleteNote: (id: string) => Promise<Models.Note>;
 }
 
 const NotesContext = createContext<NotesContextData>({} as NotesContextData);
@@ -23,40 +21,52 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
     })
   }, []);
 
-  const updateNote = (note: Models.Note) => {
-    const updatedNotes = [...allNotes];
-    const noteIndex = updatedNotes.findIndex(
-      noteItem => noteItem.id === note.id,
-    );
-    updatedNotes[noteIndex] = note;
-    setAllNotes(updatedNotes);
+  const updateNote = (input: Models.Note) => {
+    return new Promise<Models.Note>(async (resolve, reject) => {
+      Apis.note.updateNote(input).then((updatedNote) => {
+        const updatedNotes = [...allNotes];
+        const noteIndex = updatedNotes.findIndex(
+          noteItem => noteItem.id === updatedNote.id,
+        );
+        updatedNotes[noteIndex] = updatedNote;
+        setAllNotes(updatedNotes);
+        resolve(updatedNote);
+      }).catch(() => {
+        reject();
+      });
+    });
   };
 
-  const setNotes = ({ notes }: { notes: Models.Note[] }) => {
-    setAllNotes(notes);
+  const addNote = (input: Omit<Models.Note, 'id'>) => {
+    return new Promise<Models.Note>(async (resolve, reject) => {
+      Apis.note.createNote(input).then((newNote) => {
+        setAllNotes(state => [...state, newNote]);
+        resolve(newNote);
+      }).catch(() => {
+        reject();
+      });
+    });
   };
 
-  const addNotes = ({ notes }: { notes: Models.Note[] }) => {
-    setAllNotes([...allNotes, ...notes]);
+
+  const deleteNote = (id: string) => {
+    return new Promise<Models.Note>((resolve, reject) => {
+      Apis.note.deleteNote({ id }).then(() => {
+        setAllNotes(state => state.filter(note => note.id !== id));
+      }).catch(() => {
+        reject();
+      })
+    });
   };
 
-  const addNote = (note: Models.Note) => {
-    setAllNotes(state => [...state, note]);
-  };
-
-  const removeNote = (id: string) => {
-    setAllNotes(state => state.filter(note => note.id !== id));
-  };
 
   return (
     <NotesContext.Provider
       value={{
         notes: allNotes,
-        setNotes,
-        addNotes,
         addNote,
         updateNote,
-        removeNote,
+        deleteNote,
       }}
     >
       {children}

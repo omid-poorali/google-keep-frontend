@@ -1,3 +1,1 @@
-export * from './close';
-export * from './chevronRight';
-export * from './chevronLeft';
+export * from './delete';
