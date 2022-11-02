@@ -92,6 +92,7 @@ export const CreateNoteBar = () => {
           render={({ field: { onChange, onBlur, value } }) => (
             <Textarea
               ref={bodyRef}
+              fullWidth
               autoGrowing
               className="p-2 mt-1 border-none outline-none"
               placeholder="Take a note..."
@@ -102,7 +103,7 @@ export const CreateNoteBar = () => {
           )}
         />
         <div className="p-2 flex flex-row justify-end">
-          <Button type="submit" variant="text">add</Button>
+          <Button  type="submit" variant="text">add</Button>
         </div>
       </div>
     </form>

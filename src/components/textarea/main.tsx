@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import { useCombineRefs, useControlled } from 'hooks';
 
 type CustomProps = {
+	fullWidth?: boolean;
 	autoGrowing?: boolean;
 };
 
@@ -12,6 +13,7 @@ const TextareaComponent = React.forwardRef((props: PropsType, forwardedRef: Reac
 	const {
 		className,
 		autoGrowing = false,
+		fullWidth = false,
 		value: propValue,
 		defaultValue,
 		onChange,
@@ -46,7 +48,8 @@ const TextareaComponent = React.forwardRef((props: PropsType, forwardedRef: Reac
 	};
 
 	const textAreaClassName = classnames({
-		"resize-none": autoGrowing
+		"resize-none": autoGrowing,
+		"w-full": fullWidth
 	}, className);
 
 	return (

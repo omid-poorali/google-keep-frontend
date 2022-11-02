@@ -22,7 +22,7 @@ export const Options = (props: PropsType) => {
     return (
         <div className="w-full flex flex-row justify-end">
             <IconButton type="button" onClick={handleDeleteClick}>
-                <Icons.Delete className="text-green-900 hover:text-red-900" />
+                <Icons.Delete className="w-4 text-green-900  hover:text-red-900" />
             </IconButton>
         </div>
     )
