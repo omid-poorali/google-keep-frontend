@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import { useAuthContext } from 'application';
 import * as Models from 'models';
 import * as Apis from "apis";
 
@@ -13,13 +14,16 @@ const TagsContext = createContext<TagsContextData>({} as TagsContextData);
 
 export const TagsProvider = ({ children }: { children: ReactNode }) => {
 
+  const { isAuthenticated } = useAuthContext();
   const [allTags, setAllTags] = useState<Models.Tag[]>([]);
 
   useEffect(() => {
-    Apis.tag.getMyTags().then(tags => {
-      setAllTags(() => tags);
-    })
-  }, []);
+    if (isAuthenticated) {
+      Apis.tag.getMyTags().then(tags => {
+        setAllTags(() => tags);
+      });
+    }
+  }, [isAuthenticated]);
 
   const updateTag = (input: Models.Tag) => {
     return new Promise<Models.Tag>(async (resolve, reject) => {

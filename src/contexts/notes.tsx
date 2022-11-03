@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import { useAuthContext } from 'application';
 import * as Models from 'models';
 import * as Apis from "apis";
 
@@ -13,13 +14,16 @@ const NotesContext = createContext<NotesContextData>({} as NotesContextData);
 
 export const NotesProvider = ({ children }: { children: ReactNode }) => {
 
+  const { isAuthenticated } = useAuthContext();
   const [allNotes, setAllNotes] = useState<Models.Note[]>([]);
 
   useEffect(() => {
-    Apis.note.getMyNotes().then(notes => {
-      setAllNotes(() => notes);
-    })
-  }, []);
+    if (isAuthenticated) {
+      Apis.note.getMyNotes().then(notes => {
+        setAllNotes(() => notes);
+      });
+    }
+  }, [isAuthenticated]);
 
   const updateNote = (input: Models.Note) => {
     return new Promise<Models.Note>(async (resolve, reject) => {
