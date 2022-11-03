@@ -8,7 +8,7 @@ import * as Views from "./views";
 
 export const AppRoutes = () => {
 
-    const Element = ({ access, layout, element }: AllRoutes.Main.SystemRoute) => {
+    const Element = ({ access, element }: AllRoutes.Main.SystemRoute) => {
 
         const { isAuthenticated, loading } = useAuthContext();
 
@@ -22,21 +22,11 @@ export const AppRoutes = () => {
             }
         }
 
-        let RouteLayout = Layouts.Simple;
-
-        switch (layout) {
-            case Enums.Layout.Dashboard:
-                RouteLayout = Layouts.Dashboard;
-                break;
-            default:
-                RouteLayout = Layouts.Simple;
-        }
-
         return (
             <Suspense fallback={<Views.Loading />}>
-                <RouteLayout>
+                <Layouts.Simple>
                     {React.createElement(element)}
-                </RouteLayout>
+                </Layouts.Simple>
             </Suspense>
         );
     }

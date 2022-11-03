@@ -16,6 +16,7 @@ export const CreateNoteBar = () => {
 
   const formRef = useRef<HTMLFormElement>(null);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
+  const isSubmitting = useRef<boolean>(false);
 
   useEffect(() => {
     if (expand) {
@@ -37,6 +38,7 @@ export const CreateNoteBar = () => {
   });
 
   const resetForm = () => {
+    isSubmitting.current = false;
     setExpand(() => false);
     reset(defaultValues);
   }
@@ -47,13 +49,16 @@ export const CreateNoteBar = () => {
 
 
   const onSubmit = (values: NewNote) => {
-    if (values.title || values.body) {
-      addNote(values).then(() => {
+    if (!isSubmitting.current) {
+      isSubmitting.current = true;
+      if (values.title || values.body) {
+        addNote(values).then(() => {
+          resetForm();
+        });
+      }
+      else {
         resetForm();
-      });
-    }
-    else {
-      resetForm();
+      }
     }
   }
 
@@ -103,7 +108,7 @@ export const CreateNoteBar = () => {
           )}
         />
         <div className="p-2 flex flex-row justify-end">
-          <Button  type="submit" variant="text">add</Button>
+          <Button type="submit" variant="text">add</Button>
         </div>
       </div>
     </form>

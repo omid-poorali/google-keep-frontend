@@ -11,7 +11,7 @@ export type SystemRoute = {
 export const home: SystemRoute = {
     path: "/home",
     element: lazy(() => import("../pages/home")),
-    layout: Enums.Layout.Dashboard,
+    layout: Enums.Layout.Simple,
     access: Enums.RouteAccess.Private
 }
 
