@@ -35,7 +35,7 @@ const ModalComponent = React.forwardRef((props: PropsType, forwardedRef: React.R
 
 	if (open) {
 		return (
-			<div className='fix flex justify-center items-center w-full h-full top-0 bottom-0 right-0 left-0 bg-gray-300' >
+			<div className='fixed flex justify-center items-center w-full h-full top-0 bottom-0 right-0 left-0 bg-[rgba(0,0,0,0.3)]' >
 				<div
 					ref={combinedRef}
 					className={className}

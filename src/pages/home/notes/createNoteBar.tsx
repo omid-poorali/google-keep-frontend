@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import classNames from "classnames";
 import { useOutsideRefClick } from "hooks";
 import { Textarea, Button } from "components";
 import { useNotes } from "contexts";
@@ -66,10 +65,6 @@ export const CreateNoteBar = () => {
     setExpand(() => true);
   };
 
-  const wrapperClassName = classNames({
-    "hidden": !expand
-  });
-
   return (
     <form
       ref={formRef}
@@ -90,27 +85,29 @@ export const CreateNoteBar = () => {
           />
         )}
       />
-      <div className={wrapperClassName}>
-        <Controller
-          name="body"
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Textarea
-              ref={bodyRef}
-              fullWidth
-              autoGrowing
-              className="p-2 mt-1 border-none outline-none"
-              placeholder="Take a note..."
-              value={value ?? ""}
-              onChange={onChange}
-              onBlur={onBlur}
-            />
-          )}
-        />
-        <div className="p-2 flex flex-row justify-end">
-          <Button type="submit" variant="text">add</Button>
-        </div>
-      </div>
+      {expand && (
+        <>
+          <Controller
+            name="body"
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Textarea
+                ref={bodyRef}
+                fullWidth
+                autoGrowing
+                className="p-2 mt-1 border-none outline-none"
+                placeholder="Take a note..."
+                value={value ?? ""}
+                onChange={onChange}
+                onBlur={onBlur}
+              />
+            )}
+          />
+          <div className="p-2 flex flex-row justify-end">
+            <Button type="submit" variant="text">add</Button>
+          </div>
+        </>
+      )}
     </form>
   );
 };
