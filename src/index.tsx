@@ -4,7 +4,7 @@ import { Application } from 'application';
 import { ToastContainer } from 'react-toastify';
 import reportWebVitals from './reportWebVitals';
 import 'react-toastify/dist/ReactToastify.css';
-import './styles/main.scss';
+import './styles/main.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
