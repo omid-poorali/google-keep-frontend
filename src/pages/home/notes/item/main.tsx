@@ -6,6 +6,7 @@ type PropsType = {
   className: string;
   note: Models.Note;
   onDelete: (note: Models.Note) => void;
+  onUpdate: (note: Models.Note) => void;
 }
 
 export const NoteItem = (props: PropsType) => {
@@ -13,6 +14,7 @@ export const NoteItem = (props: PropsType) => {
   const {
     className,
     note,
+    onUpdate,
     onDelete
   } = props;
 
@@ -25,7 +27,10 @@ export const NoteItem = (props: PropsType) => {
     <li className={rootClassName}>
       <div className="text-base font-medium text-gray-500">{note.title}</div>
       <p className="flex-grow text-base font-normal text-gray-400">{note.body}</p>
-      <Options note={note} onDelete={onDelete} />
+      <Options
+        note={note}
+        onUpdate={onUpdate}
+        onDelete={onDelete} />
     </li>
   )
 }

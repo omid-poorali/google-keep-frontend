@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useOutsideRefClick } from "hooks";
-import { Textarea, Button } from "components";
-import { useNotes } from "contexts";
+import { Textarea, Button, MultiSelect } from "components";
+import { useNotes, useTags } from "contexts";
 import * as Models from "models";
 
 type NewNote = Omit<Models.Note, "id">;
@@ -10,6 +10,9 @@ type NewNote = Omit<Models.Note, "id">;
 export const CreateNoteBar = () => {
 
   const { addNote } = useNotes();
+  const { tags } = useTags();
+
+  const tagsOptions = tags.map(tag => ({ label: tag.name, value: tag.id }));
 
   const [expand, setExpand] = useState<boolean>(false);
 
@@ -25,10 +28,12 @@ export const CreateNoteBar = () => {
 
   const defaultValues = {
     title: "",
-    body: ""
+    body: "",
+    tags: []
   };
 
   const {
+    setValue,
     reset,
     control,
     handleSubmit
@@ -103,7 +108,22 @@ export const CreateNoteBar = () => {
               />
             )}
           />
-          <div className="p-2 flex flex-row justify-end">
+          <div className="p-2 flex flex-row justify-end items-center">
+            <Controller
+              name="tags"
+              control={control}
+              render={({ field: { value } }) => (
+                <MultiSelect
+                  searchable
+                  fullWidth
+                  options={tagsOptions}
+                  value={value}
+                  onChange={({ value }) => {
+                    setValue("tags", value)
+                  }} />
+              )}
+            />
+
             <Button type="submit" variant="text">add</Button>
           </div>
         </>
